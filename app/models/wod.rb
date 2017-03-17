@@ -5,7 +5,7 @@ class Wod < ApplicationRecord
     @time = time
     @pull = PULLS.sample
 		@run = RUNS.sample
-		@sit = SIT.sample
+		@sit = SITS.sample
 		@jump = JUMPS.sample
 		@light = LIGHTS.sample
 		@heavy = HEAVYS.sample
