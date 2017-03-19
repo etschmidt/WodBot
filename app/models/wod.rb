@@ -19,28 +19,32 @@ class Wod < ApplicationRecord
     @weight2 = weight(@movement2)
     @weight3 = weight(@movement3)
     @weight4 = weight(@movement4)
-    @reps1 = reps
-    @reps2 = reps
-    @reps3 = reps
-    @reps4 = reps
-  # @pull2 = PULLS.sample
-	#	@run2 = RUNS.sample
-	#	@sit2 = SIT.sample
-	#	@jump2 = JUMPS.sample
-	#	@light2 = LIGHTS.sample
-	#	@heavy2 = HEAVYS.sample
+    @reps1 = reps(@movement1)
+    @reps2 = reps(@movement2)
+    @reps3 = reps(@movement3)
+    @reps4 = reps(@movement4)
+    @set1 = "#{@reps1} #{@movement1} #{@weight1}"
+    @set2 = "#{@reps2} #{@movement2} #{@weight2}"
+    @set3 = "#{@reps3} #{@movement3} #{@weight3}"
+    @set4 = "#{@reps4} #{@movement4} #{@weight4}"
+    @pull2 = PULLS.sample
+		@run2 = RUNS.sample
+		@sit2 = SITS.sample
+		@jump2 = JUMPS.sample
+	 	@light2 = LIGHTS.sample
+	  @heavy2 = HEAVYS.sample
 
   end
 
 
 WOD_TYPES = ["AMRAP", "EMOM", "RFT"]
-PULLS = ["StrPullup", "StrHSPU", "BMU", "RMU", "dip", "RopeClimb", "KipPullup", 
-				 "KipPullup", "T2B", "C2B"]
-RUNS = ["CalRow", "4xDU"]
-SITS = ["Situp", "KBS", "KBSn", "KBC", "GHD", "Slamball"]
-JUMPS = ["BJ", "BBJ", "BJO", "BBJO", "Pistol", "Lunge", "Burpee", "Wallball"]
-LIGHTS = ["OHP", "C&P", "SDLHP", "Snatch", "HS", "PS", "HPS", "Thruster", "OHS"]
-HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Clean", "HC", "PC", "HPC", "C&J"]
+PULLS = ["StrPullups", "StrHSPU", "BMU", "RMU", "Dips", "RopeClimbs", "KipPullups", 
+				 "KipPullups", "T2B", "C2B"]
+RUNS = ["CalRow", "DU"]
+SITS = ["Situps", "KBS", "KBSn", "KBC", "GHD", "Slamballs"]
+JUMPS = ["BJ", "BBJ", "BJO", "BBJO", "Pistols", "Lunges", "Burpees", "Wallballs"]
+LIGHTS = ["OHP", "C&P", "SDLHP", "Snatches", "HS", "PS", "HPS", "Thrusters", "OHS"]
+HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"]
 
 
 # the time limits for AMRAP and EMOM
@@ -68,38 +72,46 @@ HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Clean", "HC", "PC", "HPC", "C&J"]
   	if ["KBS", "KBSn", "KBC"].include? movement
   		return ["1", "1.5", "2"].sample + "pd"
   	elsif LIGHTS.include? movement
-  	  return  rand(5..9) * 15
+  	  return (rand(5..9) * 15).to_s + "#"
   	elsif HEAVYS.include? movement
-  		return rand(8..15) * 15
+  		return (rand(8..15) * 15).to_s + "#"
   	else
   		return ""
   	end
   end
-  	   	 
-  def weights
-
-  end
 
 # number of reps for each movement
-  def reps
+  def reps(movement)
     if @wod_type == "EMOM"
-      return rand(1..5)
+      if movement == "DU"
+        return rand(2..6) * 4
+      else
+        return rand(2..6)
+      end
     else
-      return rand(3..20)
+      if movement == "DU"
+        return rand(3..21) * 4
+      else
+        return rand(3..21)
+      end
     end
+  end
+
+  def number_of_sets
+    return rand(3..8)
   end
 
   def print_wod
 		if @wod_type == "EMOM"  	
     	"#{@wod_type} #{@time}:\n" +
-    	"#{@reps1} " + "#{@movement1} " + "#{@weight1}\n" +
-    	"#{@reps2} " + "#{@movement2} " + "#{@weight2}\n"
+    	"#{@set1}\n" +
+      "#{@set2}\n"
     else
     	"#{@rounds}#{@wod_type}#{@time}:\n" +
-    	"#{@reps1} " + "#{@movement1} " + "#{@weight1}\n" +
-    	"#{@reps2} " + "#{@movement2} " + "#{@weight2}\n" +
-    	"#{@reps3} " + "#{@movement3} " + "#{@weight3}\n" +
-    	"#{@reps4} " + "#{@movement4} " + "#{@weight4}\n"
+      "#{@set1}\n" +
+      "#{@set2}\n" +
+      "#{@set3}\n" +
+      "#{@set4}\n"
     end
   end
 
