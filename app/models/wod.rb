@@ -65,7 +65,7 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
 
   def rounds
     if @wod_type == "RFT"
-      return rand(1..7)
+      return rand(2..7)
     end
   end
 
@@ -84,9 +84,9 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
   def reps(movement)
     if @wod_type == "EMOM"
       if movement == "DU"
-        return rand(2..5) * 4
+        return rand(2..4) * 4
       else
-        return rand(2..5)
+        return rand(2..4)
       end
     else
       if movement == "DU"
@@ -116,8 +116,12 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
   def bbweight
     if @sets.to_s =~ /OHP|C&Press|SDLHP|Snatches|HangSnatch|PowerSnatch|HPS|Thrusters|OHS/ 
       return ["75/55", "95/65", "115/85", "135/95"].sample + "#\n"
-    elsif @sets.to_s =~ /BackSquat|FrontSquat|Deadlift|PushJerk|PushPress|Cleans|HangClean|PowerClean|HPC|C&J/
+    elsif @sets.to_s =~ /PushJerk|PushPress|HPC|C&J/
+      return ["115/85", "135/95", "155/105", "185/115"].sample + "#\n"
+    elsif @sets.to_s =~ /FrontSquat|Cleans|HangClean|PowerClean/
       return ["115/85", "135/95", "155/105", "185/115", "205/135", "225/155"].sample + "#\n"
+    elsif @sets.to_s =~ /BackSquat|Deadlift/
+      return ["115/85", "135/95", "155/105", "185/115", "205/135", "225/155", "275/185"].sample + "#\n"      
     end
   end
 
