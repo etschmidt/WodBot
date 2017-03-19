@@ -72,27 +72,29 @@ HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"]
 # if one of the movemnts is a light BB, then the heavy BB defaults to that weight as well
   def bbweight
     if @movements.include? @light
-      return ["75/55", "95/65", "115/85", "135/95"].sample + "#"
+      return ["75/55", "95/65", "115/85", "135/95"].sample + "#\n"
     elsif @movements.include? @heavy
-      return ["115/85", "135/95", "155/105", "185/115", "205/135", "225/155"].sample + "#"
+      return ["115/85", "135/95", "155/105", "185/115", "205/135", "225/155"].sample + "#\n"
     end
   end
 
   def kbweight
     if @movements.include? "KBS" || "KBSn" || "KBC"
-      return ["1pood", "1.5pood", "2pood"].sample
+      return ["1", "1.5", "2"].sample + "pd\n"
     end
   end
 
   def slamweight
     if @movements.include? "Slamballs"
-      return ["20/15", "30/20", "40/30"].sample + "#"
+      return ["20/15", "30/20", "40/30"].sample + "#\n"
     end
   end
 
   def height
-    if @movements.include? "BJ" || "BBJ" || "BJO" || "BBJO"
-      return ["24/20", "30/24"].sample + "\""
+    if @movements.include? @jump
+      if @jump.include? "BJ" || "BBJ" || "BJO" || "BBJO"
+        return ["24/20", "30/24"].sample + "\"\n"
+      end
     end
   end
 
@@ -122,20 +124,20 @@ HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"]
     	"#{@wod_type} #{@time}:\n\n" +
     	"#{@set1}\n" +
       "#{@set2}\n\n" +
-      "#{@bbweight}\n" +
-      "#{@kbweight}\n" +
-      "#{@height}\n" +
-      "#{@slamweight}\n"
+      "#{@bbweight}" +
+      "#{@kbweight}" +
+      "#{@height}" +
+      "#{@slamweight}"
     else
     	"#{@rounds}#{@wod_type}#{@time}:\n\n" +
       "#{@set1}\n" +
       "#{@set2}\n" +
       "#{@set3}\n" +
       "#{@set4}\n\n" +
-      "#{@bbweight}\n" +
-      "#{@kbweight}\n" +
-      "#{@height}\n" +
-      "#{@slamweight}\n"
+      "#{@bbweight}" +
+      "#{@kbweight}" +
+      "#{@height}" +
+      "#{@slamweight}"
     end
   end
 
