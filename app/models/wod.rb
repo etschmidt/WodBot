@@ -4,47 +4,60 @@ class Wod < ApplicationRecord
     @wod_type = WOD_TYPES.sample
     @time = time
     @rounds = rounds
-    @pull = PULLS.sample
-		@run = RUNS.sample
-		@sit = SITS.sample
-		@jump = JUMPS.sample
-		@light = LIGHTS.sample
-		@heavy = HEAVYS.sample
+    @pull = PULLS.first
+		@run = RUNS.first
+		@sit = SITS.first
+		@jump = JUMPS.first
+		@light = LIGHTS.first
+		@heavy = HEAVYS.first
+    @pull2 = PULLS.last
+    @run2 = RUNS.last
+    @sit2 = SITS.last
+    @jump2 = JUMPS.last
+    @light2 = LIGHTS.last
+    @heavy2 = HEAVYS.last
     @movements = movements
     @movement1 = @movements.at(0)
     @movement2 = @movements.at(1)
     @movement3 = @movements.at(2)
     @movement4 = @movements.at(3)
+    @movement5 = @movements.at(4)
+    @movement6 = @movements.at(5)
+    @movement7 = @movements.at(6)
+    @movement8 = @movements.at(7)
     @reps1 = reps(@movement1)
     @reps2 = reps(@movement2)
     @reps3 = reps(@movement3)
     @reps4 = reps(@movement4)
-    @bbweight = bbweight
-    @kbweight = kbweight
-    @slamweight = slamweight
-    @height = height
+    @reps5 = reps(@movement5)
+    @reps6 = reps(@movement6)
+    @reps7 = reps(@movement7)
+    @reps8 = reps(@movement8)
     @set1 = "#{@reps1} #{@movement1}"
     @set2 = "#{@reps2} #{@movement2}"
     @set3 = "#{@reps3} #{@movement3}"
     @set4 = "#{@reps4} #{@movement4}"
-    @pull2 = PULLS.sample
-		@run2 = RUNS.sample
-		@sit2 = SITS.sample
-		@jump2 = JUMPS.sample
-	 	@light2 = LIGHTS.sample
-	  @heavy2 = HEAVYS.sample
+    @set5 = "#{@reps5} #{@movement5}"
+    @set6 = "#{@reps6} #{@movement6}"
+    @set7 = "#{@reps7} #{@movement7}"
+    @set8 = "#{@reps8} #{@movement8}"
+    @sets = sets
+    @bbweight = bbweight
+    @kbweight = kbweight
+    @slamweight = slamweight
+    @height = height
   end
 
 
 WOD_TYPES = ["AMRAP", "EMOM", "RFT"]
 PULLS = ["StrPullups", "StrHSPU", "BMU", "RMU", "Dips", "RopeClimbs", "KipPullups", 
-				 "KipPullups", "T2B", "C2B"]
-RUNS = ["CalRow", "DU"]
-SITS = ["Situps", "KBS", "KBSn", "KBC", "GHD", "Slamballs"]
+				 "KipPullups", "T2B", "C2B"].shuffle
+RUNS = ["CalRow", "DU", "Run"].shuffle
+SITS = ["Situps", "KBS", "KBSn", "KBC", "GHD", "Slamballs"].shuffle
 JUMPS = ["BJ", "BBJ", "BJO", "BBJO", "AirSquats", "Pistols", "Lunges",
-         "Burpees", "Wallballs"]
-LIGHTS = ["OHP", "C&P", "SDLHP", "Snatches", "HS", "PS", "HPS", "Thrusters", "OHS"]
-HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"]
+         "Burpees", "Wallballs"].shuffle
+LIGHTS = ["OHP", "C&P", "SDLHP", "Snatches", "HS", "PS", "HPS", "Thrusters", "OHS"].shuffle
+HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"].shuffle
 
 
 # the time limits for AMRAP and EMOM
@@ -63,9 +76,11 @@ HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"]
 # selects movements from categories
   def movements
     if @wod_type == "EMOM"
-      return [@pull, @run, @sit, @jump, @light, @heavy].shuffle.take(2)
+      return [@pull, @sit, @jump, @light, @heavy, 
+            @pull2, @sit2, @jump2, @light2, @heavy2].shuffle
     else
-      return [@pull, @run, @sit, @jump, @light, @heavy].shuffle.take(4)
+      return [@pull, @run, @sit, @jump, @light, @heavy, 
+            @pull2, @run2, @sit2, @jump2, @light2, @heavy2].shuffle
     end
   end
 
@@ -102,13 +117,15 @@ HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"]
   def reps(movement)
     if @wod_type == "EMOM"
       if movement == "DU"
-        return rand(2..6) * 4
+        return rand(2..5) * 4
       else
-        return rand(2..6)
+        return rand(2..5)
       end
     else
       if movement == "DU"
         return rand(3..21) * 4
+      elsif movement =="Run"
+        return ["100", "200", "300", "400"].sample + "m"
       else
         return rand(3..21)
       end
@@ -116,24 +133,28 @@ HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"]
   end
 
   def sets
-    return rand(3..8)
+    if @wod_type == "EMOM"
+      return ["#{@set1}", "#{@set2}", "#{@set3}", "#{@set4}",
+              "#{@set5}", "#{@set6}", "#{@set7}", "#{@set8}"]
+              .sample(rand(2..3)).map { |i| "" + i.to_s + "" }.join("\n")
+    else
+      return ["#{@set1}", "#{@set2}", "#{@set3}", "#{@set4}",
+              "#{@set5}", "#{@set6}", "#{@set7}", "#{@set8}"]
+              .sample(rand(3..8)).map { |i| "" + i.to_s + "" }.join("\n")
+    end
   end
 
   def print_wod
 		if @wod_type == "EMOM"  	
     	"#{@wod_type} #{@time}:\n\n" +
-    	"#{@set1}\n" +
-      "#{@set2}\n\n" +
+    	"#{@sets}\n\n" +
       "#{@bbweight}" +
       "#{@kbweight}" +
       "#{@height}" +
       "#{@slamweight}"
     else
     	"#{@rounds}#{@wod_type}#{@time}:\n\n" +
-      "#{@set1}\n" +
-      "#{@set2}\n" +
-      "#{@set3}\n" +
-      "#{@set4}\n\n" +
+      "#{@sets}\n\n" +
       "#{@bbweight}" +
       "#{@kbweight}" +
       "#{@height}" +
