@@ -42,22 +42,18 @@ class Wod < ApplicationRecord
     @set7 = "#{@reps7} #{@movement7}"
     @set8 = "#{@reps8} #{@movement8}"
     @sets = sets
-    @bbweight = bbweight
-    @kbweight = kbweight
-    @slamweight = slamweight
-    @height = height
   end
 
 
 WOD_TYPES = ["AMRAP", "EMOM", "RFT"]
-PULLS = ["StrPullups", "StrHSPU", "BMU", "RMU", "Dips", "RopeClimbs", "KipPullups", 
+PULLS = ["StrPullups", "StrHSPU", "BarMU", "RingMU", "RingDips", "RopeClimbs", "KipPullups", 
 				 "KipPullups", "T2B", "C2B"].shuffle
-RUNS = ["CalRow", "DU", "Run"].shuffle
-SITS = ["Situps", "KBS", "KBSn", "KBC", "GHD", "Slamballs"].shuffle
-JUMPS = ["BJ", "BBJ", "BJO", "BBJO", "AirSquats", "Pistols", "Lunges",
+RUNS = ["CalRow", "CalBike", "DU", "Run"].shuffle
+SITS = ["Situps", "KBS", "KBSn", "KBC", "GHD", "HipExt", "Slamballs"].shuffle
+JUMPS = ["BoxJump", "BBJ", "BJO", "BBJO", "AirSquats", "Pistols", "Lunges",
          "Burpees", "Wallballs"].shuffle
-LIGHTS = ["OHP", "C&P", "SDLHP", "Snatches", "HS", "PS", "HPS", "Thrusters", "OHS"].shuffle
-HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"].shuffle
+LIGHTS = ["OHP", "C&Press", "SDLHP", "Snatches", "HangSnatch", "PowerSnatch", "HPS", "Thrusters", "OHS"].shuffle
+HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Cleans", "HangClean", "PowerClean", "HPC", "C&J"].shuffle
 
 
 # the time limits for AMRAP and EMOM
@@ -81,35 +77,6 @@ HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"].shuf
     else
       return [@pull, @run, @sit, @jump, @light, @heavy, 
             @pull2, @run2, @sit2, @jump2, @light2, @heavy2].shuffle
-    end
-  end
-
-# if one of the movemnts is a light BB, then the heavy BB defaults to that weight as well
-  def bbweight
-    if @movements.include? @light
-      return ["75/55", "95/65", "115/85", "135/95"].sample + "#\n"
-    elsif @movements.include? @heavy
-      return ["115/85", "135/95", "155/105", "185/115", "205/135", "225/155"].sample + "#\n"
-    end
-  end
-
-  def kbweight
-    if @movements.include? "KBS" || "KBSn" || "KBC"
-      return ["1", "1.5", "2"].sample + "pd\n"
-    end
-  end
-
-  def slamweight
-    if @movements.include? "Slamballs"
-      return ["20/15", "30/20", "40/30"].sample + "#\n"
-    end
-  end
-
-  def height
-    if @movements.include? @jump
-      if @jump.include? "BJ" || "BBJ" || "BJO" || "BBJO"
-        return ["24/20", "30/24"].sample + "\"\n"
-      end
     end
   end
 
@@ -144,21 +111,57 @@ HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"].shuf
     end
   end
 
+# if one of the movemnts is a light BB, then the heavy BB defaults to that weight as well
+# clearly, there must be a better way to do this than check the regex against the string
+  def bbweight
+    if @sets.to_s =~ /OHP|C&Press|SDLHP|Snatches|HangSnatch|PowerSnatch|HPS|Thrusters|OHS/ 
+      return ["75/55", "95/65", "115/85", "135/95"].sample + "#\n"
+    elsif @sets.to_s =~ /BackSquat|FrontSquat|Deadlift|PushJerk|PushPress|Cleans|HangClean|PowerClean|HPC|C&J/
+      return ["115/85", "135/95", "155/105", "185/115", "205/135", "225/155"].sample + "#\n"
+    end
+  end
+
+  def kbweight
+    if @sets.to_s =~ /KB/
+      return ["1", "1.5", "2"].sample + "pd kb\n"
+    end
+  end
+
+  def slamweight
+    if @sets.to_s =~ /Slamballs/
+      return ["20/15", "30/20", "40/30"].sample + "# sb\n"
+    end
+  end
+
+  def wallweight
+    if @sets.to_s =~ /Wallballs/
+      return ["20/14", "30/20"].sample + "# wb\n"
+    end
+  end
+
+  def height
+    if @sets.to_s =~ /BJ/
+       return ["24/20", "30/24"].sample + "\"\n"
+    end
+  end
+
   def print_wod
 		if @wod_type == "EMOM"  	
     	"#{@wod_type} #{@time}:\n\n" +
     	"#{@sets}\n\n" +
-      "#{@bbweight}" +
-      "#{@kbweight}" +
-      "#{@height}" +
-      "#{@slamweight}"
+      "#{bbweight}" +
+      "#{kbweight}" +
+      "#{height}" +
+      "#{slamweight}" +
+      "#{wallweight}"
     else
     	"#{@rounds}#{@wod_type}#{@time}:\n\n" +
       "#{@sets}\n\n" +
-      "#{@bbweight}" +
-      "#{@kbweight}" +
-      "#{@height}" +
-      "#{@slamweight}"
+      "#{bbweight}" +
+      "#{kbweight}" +
+      "#{height}" +
+      "#{slamweight}" +
+      "#{wallweight}"
     end
   end
 
