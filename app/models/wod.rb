@@ -83,14 +83,10 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
 # number of reps for each movement
   def reps(movement)
     if @wod_type == "EMOM"
-      if movement == "DU"
-        return rand(2..4) * 4
-      else
-        return rand(2..4)
-      end
+      return rand(2..4)
     else
       if movement == "DU"
-        return rand(3..21) * 4
+        return rand(3..21) * 5
       elsif movement =="Run"
         return ["100", "200", "300", "400"].sample + "m"
       else
@@ -144,7 +140,7 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
   end
 
   def height
-    if @sets.to_s =~ /BJ/
+    if @sets.to_s =~ /BJ|BoxJump/
        return ["24/20", "30/24"].sample + "\"\n"
     end
   end
