@@ -15,25 +15,24 @@ class Wod < ApplicationRecord
     @movement2 = @movements.at(1)
     @movement3 = @movements.at(2)
     @movement4 = @movements.at(3)
-    @weight1 = weight(@movement1)
-    @weight2 = weight(@movement2)
-    @weight3 = weight(@movement3)
-    @weight4 = weight(@movement4)
     @reps1 = reps(@movement1)
     @reps2 = reps(@movement2)
     @reps3 = reps(@movement3)
     @reps4 = reps(@movement4)
-    @set1 = "#{@reps1} #{@movement1} #{@weight1}"
-    @set2 = "#{@reps2} #{@movement2} #{@weight2}"
-    @set3 = "#{@reps3} #{@movement3} #{@weight3}"
-    @set4 = "#{@reps4} #{@movement4} #{@weight4}"
+    @bbweight = bbweight
+    @kbweight = kbweight
+    @slamweight = slamweight
+    @height = height
+    @set1 = "#{@reps1} #{@movement1}"
+    @set2 = "#{@reps2} #{@movement2}"
+    @set3 = "#{@reps3} #{@movement3}"
+    @set4 = "#{@reps4} #{@movement4}"
     @pull2 = PULLS.sample
 		@run2 = RUNS.sample
 		@sit2 = SITS.sample
 		@jump2 = JUMPS.sample
 	 	@light2 = LIGHTS.sample
 	  @heavy2 = HEAVYS.sample
-
   end
 
 
@@ -42,7 +41,8 @@ PULLS = ["StrPullups", "StrHSPU", "BMU", "RMU", "Dips", "RopeClimbs", "KipPullup
 				 "KipPullups", "T2B", "C2B"]
 RUNS = ["CalRow", "DU"]
 SITS = ["Situps", "KBS", "KBSn", "KBC", "GHD", "Slamballs"]
-JUMPS = ["BJ", "BBJ", "BJO", "BBJO", "Pistols", "Lunges", "Burpees", "Wallballs"]
+JUMPS = ["BJ", "BBJ", "BJO", "BBJO", "AirSquats", "Pistols", "Lunges",
+         "Burpees", "Wallballs"]
 LIGHTS = ["OHP", "C&P", "SDLHP", "Snatches", "HS", "PS", "HPS", "Thrusters", "OHS"]
 HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"]
 
@@ -51,8 +51,6 @@ HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"]
   def time
     unless @wod_type == "RFT"
       return rand(7..21)
-    else
-      return ""
     end
   end
 
@@ -64,20 +62,38 @@ HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"]
 
 # selects movements from categories
   def movements
-    return [@pull, @run, @sit, @jump, @light, @heavy].shuffle
+    if @wod_type == "EMOM"
+      return [@pull, @run, @sit, @jump, @light, @heavy].shuffle.take(2)
+    else
+      return [@pull, @run, @sit, @jump, @light, @heavy].shuffle.take(4)
+    end
   end
 
 # if one of the movemnts is a light BB, then the heavy BB defaults to that weight as well
-  def weight(movement)
-  	if ["KBS", "KBSn", "KBC"].include? movement
-  		return ["1", "1.5", "2"].sample + "pd"
-  	elsif LIGHTS.include? movement
-  	  return (rand(5..9) * 15).to_s + "#"
-  	elsif HEAVYS.include? movement
-  		return (rand(8..15) * 15).to_s + "#"
-  	else
-  		return ""
-  	end
+  def bbweight
+    if @movements.include? @light
+      return ["75/55", "95/65", "115/85", "135/95"].sample + "#"
+    elsif @movements.include? @heavy
+      return ["115/85", "135/95", "155/105", "185/115", "205/135", "225/155"].sample + "#"
+    end
+  end
+
+  def kbweight
+    if @movements.include? "KBS" || "KBSn" || "KBC"
+      return ["1pood", "1.5pood", "2pood"].sample
+    end
+  end
+
+  def slamweight
+    if @movements.include? "Slamballs"
+      return ["20/15", "30/20", "40/30"].sample + "#"
+    end
+  end
+
+  def height
+    if @movements.include? "BJ" || "BBJ" || "BJO" || "BBJO"
+      return ["24/20", "30/24"].sample + "\""
+    end
   end
 
 # number of reps for each movement
@@ -97,21 +113,29 @@ HEAVYS = ["BS", "FS", "DL", "PJ", "PP", "Cleans", "HC", "PC", "HPC", "C&J"]
     end
   end
 
-  def number_of_sets
+  def sets
     return rand(3..8)
   end
 
   def print_wod
 		if @wod_type == "EMOM"  	
-    	"#{@wod_type} #{@time}:\n" +
+    	"#{@wod_type} #{@time}:\n\n" +
     	"#{@set1}\n" +
-      "#{@set2}\n"
+      "#{@set2}\n\n" +
+      "#{@bbweight}\n" +
+      "#{@kbweight}\n" +
+      "#{@height}\n" +
+      "#{@slamweight}\n"
     else
-    	"#{@rounds}#{@wod_type}#{@time}:\n" +
+    	"#{@rounds}#{@wod_type}#{@time}:\n\n" +
       "#{@set1}\n" +
       "#{@set2}\n" +
       "#{@set3}\n" +
-      "#{@set4}\n"
+      "#{@set4}\n\n" +
+      "#{@bbweight}\n" +
+      "#{@kbweight}\n" +
+      "#{@height}\n" +
+      "#{@slamweight}\n"
     end
   end
 
