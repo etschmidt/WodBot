@@ -48,7 +48,7 @@ class Wod < ApplicationRecord
 WOD_TYPES = ["AMRAP", "EMOM", "RFT"]
 PULLS = ["StrPullups", "StrHSPU", "BarMU", "RingMU", "RingDips", "RopeClimbs", "KipPullups", 
 				 "KipPullups", "T2B", "C2B"].shuffle
-RUNS = ["CalRow", "CalBike", "DU", "Run"].shuffle
+RUNS = ["CalRow", "Row", "CalBike", "DU", "Run"].shuffle
 SITS = ["Situps", "KBS", "KBSn", "KBC", "GHD", "HipExt", "Slamballs"].shuffle
 JUMPS = ["BoxJump", "BBJ", "BJO", "BBJO", "AirSquats", "Pistols", "Lunges",
          "Burpees", "Wallballs"].shuffle
@@ -87,8 +87,10 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
     else
       if movement == "DU"
         return rand(3..21) * 5
-      elsif movement =="Run"
+      elsif movement == "Run"
         return ["100", "200", "300", "400"].sample + "m"
+      elsif movement == "Row"
+        return ["250", "500", "750"].sample + "m"
       else
         return rand(3..21)
       end
