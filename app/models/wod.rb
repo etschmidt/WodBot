@@ -153,7 +153,8 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
       "#{kbweight}" +
       "#{height}" +
       "#{slamweight}" +
-      "#{wallweight}"
+      "#{wallweight}" +
+      "\nFind more at https://GymBUll.com"
     else
     	"#{@rounds}#{@wod_type}#{@time}:\n\n" +
       "#{@sets}\n\n" +
@@ -161,7 +162,8 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
       "#{kbweight}" +
       "#{height}" +
       "#{slamweight}" +
-      "#{wallweight}"
+      "#{wallweight}" +
+      "\nFind more at https://GymBUll.com"
     end
   end
 
