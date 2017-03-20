@@ -50,7 +50,7 @@ PULLS = ["StrPullups", "StrHSPU", "BarMU", "RingMU", "RingDips", "RopeClimbs", "
 				 "KipPullups", "T2B", "C2B"].shuffle
 RUNS = ["CalRow", "Row", "CalBike", "DU", "Run"].shuffle
 SITS = ["Situps", "KBS", "KBSn", "KBC", "GHD", "HipExt", "Slamballs"].shuffle
-JUMPS = ["BoxJump", "BBJ", "BJO", "BBJO", "AirSquats", "Pistols", "Lunges",
+JUMPS = ["BoxJumps", "BBJ", "BJO", "BBJO", "AirSquats", "Pistols", "Lunges",
          "Burpees", "Wallballs"].shuffle
 LIGHTS = ["OHP", "C&Press", "SDLHP", "Snatches", "HangSnatch", "PowerSnatch", "HPS", "Thrusters", "OHS"].shuffle
 HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Cleans", "HangClean", "PowerClean", "HPC", "C&J"].shuffle
@@ -142,7 +142,7 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
   end
 
   def height
-    if @sets.to_s =~ /BJ|BoxJump/
+    if @sets.to_s =~ /BJ|BoxJumps/
        return ["24/20", "30/24"].sample + "\"\n"
     end
   end
