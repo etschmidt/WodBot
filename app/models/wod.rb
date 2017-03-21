@@ -46,7 +46,7 @@ class Wod < ApplicationRecord
 
 
 WOD_TYPES = ["AMRAP", "EMOM", "RFT"]
-PULLS = ["StrPullups", "StrHSPU", "BarMU", "RingMU", "RingDips", "RopeClimbs", "KipPullups", 
+PULLS = ["StrPullups", "StrHSPU", "BarMU", "RingMU", "RingDips", "RopeClimb", "KipPullups", 
 				 "KipPullups", "T2B", "C2B"].shuffle
 RUNS = ["CalRow", "Row", "CalBike", "DU", "Run"].shuffle
 SITS = ["Situps", "KBS", "KBSn", "KBC", "GHD", "HipExt", "Slamballs"].shuffle
@@ -83,7 +83,11 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
 # number of reps for each movement
   def reps(movement)
     if @wod_type == "EMOM"
-      return rand(2..4)
+      if movement == "RopeClimb"
+        return 1
+      else
+        return rand(2..4)
+      end
     else
       if movement == "DU"
         return rand(3..21) * 5
@@ -91,6 +95,21 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
         return ["100", "200", "300", "400"].sample + "m"
       elsif movement == "Row"
         return ["250", "500", "750"].sample + "m"
+      elsif movement == "BMU"
+        return rand(2..9) 
+      elsif movement == "RingMU"
+        return rand(2..9)
+      elsif movement == "RopeClimb"
+        return rand(2..9)     
+  # this is rdundant to allow for futher refinement   
+      elsif @wod_type == "AMRAP"
+        if @time > 12
+          return rand(15..40)
+        else 
+          return rand(3..21)
+        end
+      elsif @rounds < 5    #@wod_type is RFT
+        return rand(15..40)
       else
         return rand(3..21)
       end
@@ -101,11 +120,21 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
     if @wod_type == "EMOM"
       return ["#{@set1}", "#{@set2}", "#{@set3}", "#{@set4}",
               "#{@set5}", "#{@set6}", "#{@set7}", "#{@set8}"]
-              .sample(rand(2..3)).map { |i| "" + i.to_s + "" }.join("\n")
-    else
+              .sample(2).map { |i| "" + i.to_s + "" }.join("\n")
+    elsif @wod_type == "RFT" 
+      if @rounds < 5
+        return ["#{@set1}", "#{@set2}", "#{@set3}", "#{@set4}",
+                "#{@set5}", "#{@set6}", "#{@set7}", "#{@set8}"]
+               .sample(rand(4..8)).map { |i| "" + i.to_s + "" }.join("\n")
+      else
+        return ["#{@set1}", "#{@set2}", "#{@set3}", "#{@set4}",
+                "#{@set5}", "#{@set6}", "#{@set7}", "#{@set8}"]
+               .sample(rand(3..5)).map { |i| "" + i.to_s + "" }.join("\n")
+      end
+    else 
       return ["#{@set1}", "#{@set2}", "#{@set3}", "#{@set4}",
               "#{@set5}", "#{@set6}", "#{@set7}", "#{@set8}"]
-              .sample(rand(3..8)).map { |i| "" + i.to_s + "" }.join("\n")
+             .sample(rand(3..8)).map { |i| "" + i.to_s + "" }.join("\n")
     end
   end
 
