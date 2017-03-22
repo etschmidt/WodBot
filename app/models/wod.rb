@@ -42,10 +42,11 @@ class Wod < ApplicationRecord
     @set7 = "#{@reps7} #{@movement7}"
     @set8 = "#{@reps8} #{@movement8}"
     @sets = sets
+    @tags = "\n#fitness #workouts https://GymBull.com\n"
   end
 
 
-WOD_TYPES = ["AMRAP", "EMOM", "RFT"]
+WOD_TYPES = ["AMRAP", "RFT", "AMRAP", "RFT", "EMOM"]    #reduces the chances of EMOMs
 PULLS = ["StrPullups", "StrHSPU", "BarMU", "RingMU", "RingDips", "RopeClimb",
 				 "KipPullups", "T2B", "C2B"].shuffle
 RUNS = ["CalRow", "Row", "CalBike", "DU", "Run"].shuffle
@@ -100,7 +101,7 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
       elsif movement == "RingMU"
         return rand(2..9)
       elsif movement == "RopeClimb"
-        return rand(2..9)     
+        return rand(2..9)   
   # this is rdundant to allow for futher refinement   
       elsif @wod_type == "AMRAP"
         if @time > 12
@@ -125,16 +126,16 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
       if @rounds < 5
         return ["#{@set1}", "#{@set2}", "#{@set3}", "#{@set4}",
                 "#{@set5}", "#{@set6}", "#{@set7}", "#{@set8}"]
-               .sample(rand(4..8)).map { |i| "" + i.to_s + "" }.join("\n")
+               .sample(rand(4..7)).map { |i| "" + i.to_s + "" }.join("\n")
       else
         return ["#{@set1}", "#{@set2}", "#{@set3}", "#{@set4}",
                 "#{@set5}", "#{@set6}", "#{@set7}", "#{@set8}"]
-               .sample(rand(3..5)).map { |i| "" + i.to_s + "" }.join("\n")
+               .sample(rand(2..5)).map { |i| "" + i.to_s + "" }.join("\n")
       end
-    else 
+    else     # wod_type is AMRAP
       return ["#{@set1}", "#{@set2}", "#{@set3}", "#{@set4}",
               "#{@set5}", "#{@set6}", "#{@set7}", "#{@set8}"]
-             .sample(rand(3..8)).map { |i| "" + i.to_s + "" }.join("\n")
+             .sample(rand(2..7)).map { |i| "" + i.to_s + "" }.join("\n")
     end
   end
 
@@ -185,7 +186,7 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
       "#{height}" +
       "#{slamweight}" +
       "#{wallweight}" +
-      "\n#workout https://GymBull.com\n"
+      "#{@tags}"      
     else
     	"#{@rounds}#{@wod_type}#{@time}:\n\n" +
       "#{@sets}\n\n" +
@@ -194,7 +195,7 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
       "#{height}" +
       "#{slamweight}" +
       "#{wallweight}" +
-      "\n#workout https://GymBull.com\n"
+      "#{@tags}"
     end
   end
 
