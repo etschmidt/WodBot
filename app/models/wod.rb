@@ -46,7 +46,7 @@ class Wod < ApplicationRecord
 
 
 WOD_TYPES = ["AMRAP", "EMOM", "RFT"]
-PULLS = ["StrPullups", "StrHSPU", "BarMU", "RingMU", "RingDips", "RopeClimb", "KipPullups", 
+PULLS = ["StrPullups", "StrHSPU", "BarMU", "RingMU", "RingDips", "RopeClimb",
 				 "KipPullups", "T2B", "C2B"].shuffle
 RUNS = ["CalRow", "Row", "CalBike", "DU", "Run"].shuffle
 SITS = ["Situps", "KBS", "KBSn", "KBC", "GHD", "HipExt", "Slamballs"].shuffle
@@ -185,7 +185,7 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
       "#{height}" +
       "#{slamweight}" +
       "#{wallweight}" +
-      "\nFind more at: https://GymBull.com\n"
+      "\n#workout https://GymBull.com\n"
     else
     	"#{@rounds}#{@wod_type}#{@time}:\n\n" +
       "#{@sets}\n\n" +
@@ -194,7 +194,7 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
       "#{height}" +
       "#{slamweight}" +
       "#{wallweight}" +
-      "\nFind more at: https://GymBull.com\n"
+      "\n#workout https://GymBull.com\n"
     end
   end
 
