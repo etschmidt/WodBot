@@ -5,11 +5,11 @@ class Wod < ApplicationRecord
     @time = time
     @rounds = rounds
     @pull = PULLS.first
-		@run = RUNS.first
-		@sit = SITS.first
-		@jump = JUMPS.first
-		@light = LIGHTS.first
-		@heavy = HEAVYS.first
+    @run = RUNS.first
+    @sit = SITS.first
+    @jump = JUMPS.first
+    @light = LIGHTS.first
+    @heavy = HEAVYS.first
     @pull2 = PULLS.last
     @run2 = RUNS.last
     @sit2 = SITS.last
@@ -42,19 +42,35 @@ class Wod < ApplicationRecord
     @set7 = "#{@reps7} #{@movement7}"
     @set8 = "#{@reps8} #{@movement8}"
     @sets = sets
-    @tags = "\n#fitness #workouts https://GymBull.com\n"
+    
+  # for the Strength & Skill
+    @ss_type = SS_TYPES.sample
+    @ss_heavy = HEAVYS.at(1)
+    @ss_light = LIGHTS.at(1)
+    @prog = PROGS.sample
+    @me = MES.sample
+    @death = DEATHS.sample
+    @ss = ss
   end
 
 
 WOD_TYPES = ["AMRAP", "RFT", "AMRAP", "RFT", "EMOM"]    #reduces the chances of EMOMs
 PULLS = ["StrPullups", "StrHSPU", "BarMU", "RingMU", "RingDips", "RopeClimb",
-				 "KipPullups", "T2B", "C2B"].shuffle
+         "KipPullups", "T2B", "C2B"].shuffle
 RUNS = ["CalRow", "Row", "CalBike", "DU", "Run"].shuffle
-SITS = ["Situps", "KBS", "KBSn", "KBC", "GHD", "HipExt", "Slamballs"].shuffle
+SITS = ["Situps", "KBS", "KBSn", "KBC", "GHD", "HipExt", "Slamballs", "Pushups"].shuffle
 JUMPS = ["BoxJumps", "BBJ", "BJO", "BBJO", "AirSquats", "Pistols", "Lunges",
          "Burpees", "Wallballs"].shuffle
 LIGHTS = ["OHP", "C&Press", "SDLHP", "Snatches", "HangSnatch", "PowerSnatch", "HPS", "Thrusters", "OHS"].shuffle
 HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Cleans", "HangClean", "PowerClean", "HPC", "C&J"].shuffle
+
+  # for the Strength & Skill
+SS_TYPES = ["ME", "Prog", "Death", "5x5Light", "5x5Heavy", "HSLight", "HSHeavy", "CardRun", "CardRow"]
+PROGS = ["Bar Muscle Up", "Ring Muscle Up", "Pistol", "HSPU/HS Walk", "Pullup/C2B", "Rope Climb"]
+MES = ["Pushups", "Situps", "Pistols", "Pullups", "Muscle Ups", "HSPU", "Wallballs", "DU", "GHD", 
+       "T2B", "Air Squats", "Box Jumps", "Burpees", "KBS", "Ring Dips", "Row", "Assault Bike"]
+DEATHS = ["Calorie Row", "Wallballs", "Deadlifts", "Front Squats", "Kettlebell Swings",
+          "Muscle Ups", "Burpee Box Jumps", "Thrusters", "HSPU", "T2B", "Calorie Bike"]
 
 
 # the time limits for AMRAP and EMOM
@@ -177,25 +193,52 @@ HEAVYS = ["BackSquat", "FrontSquat", "Deadlift", "PushJerk", "PushPress", "Clean
     end
   end
 
+  def ss
+    if @ss_type == "ME"
+      return ["3 x 1min", "2 x 2min", "3min"].sample + " max effort " + @me
+    elsif @ss_type == "Prog"
+      return "Work on " + @prog + " progressions for 15 minutes"
+    elsif @ss_type == "Death"
+      return "Death by " + @death
+    elsif @ss_type == "5x5Light"
+      return "5 5 5 5 5 " + @ss_light
+    elsif @ss_type == "5x5Heavy"
+      return "5 5 5 5 5 " + @ss_heavy
+    elsif @ss_type == "HSLight"
+      return @ss_heavy + " - work to heavy single for the day"
+    elsif @ss_type == "HSHeavy"
+      return @ss_heavy + " - work to heavy single for the day"
+    elsif @ss_type == "CardRun"
+      return ["6 x 200m", "4 x 400m", "2 x 800m", "1 mile", "2 mile"].sample + " run"
+    elsif @ss_type == "CardRow"
+      return ["6 x 250m", "4 x 500m", "1000m", "2000m", "3000m"].sample + " row"
+    end
+  end
+  
+  def print_ss
+    "Strength / Skill:\n" +
+    "#{@ss}\n\n"
+  end
+
   def print_wod
-		if @wod_type == "EMOM"  	
-    	"#{@wod_type} #{@time}:\n\n" +
-    	"#{@sets}\n\n" +
-      "#{bbweight}" +
-      "#{kbweight}" +
-      "#{height}" +
-      "#{slamweight}" +
-      "#{wallweight}" +
-      "#{@tags}"      
-    else
-    	"#{@rounds}#{@wod_type}#{@time}:\n\n" +
+    if @wod_type == "EMOM"
+      "WOD:\n" +
+      "#{@wod_type} #{@time}\n\n" +
       "#{@sets}\n\n" +
       "#{bbweight}" +
       "#{kbweight}" +
       "#{height}" +
       "#{slamweight}" +
-      "#{wallweight}" +
-      "#{@tags}"
+      "#{wallweight}"
+    else
+      "WOD:\n" +
+      "#{@rounds}#{@wod_type}#{@time}\n\n" +
+      "#{@sets}\n\n" +
+      "#{bbweight}" +
+      "#{kbweight}" +
+      "#{height}" +
+      "#{slamweight}" +
+      "#{wallweight}"
     end
   end
 
