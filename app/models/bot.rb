@@ -8,5 +8,5 @@ client = Twitter::REST::Client.new do |config|
 end
 
 wod = Wod.new
-client.update(wod.print_wod + "\n#fitness #workouts https://GymBull.com\n")
 client.update(wod.print_ss + "\n#fitness #workouts https://GymBull.com\n")
+client.update(wod.print_wod + "\n#fitness #workouts https://GymBull.com\n")
