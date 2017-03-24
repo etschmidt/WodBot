@@ -1,4 +1,4 @@
-task :post do
+task :post => :environment do
 	require 'twitter'
 
 	client = Twitter::REST::Client.new do |config|
