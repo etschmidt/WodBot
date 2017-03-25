@@ -120,10 +120,10 @@ DEATHS = ["Calorie Row", "Wallballs", "Deadlifts", "Front Squats", "Kettlebell S
         return rand(2..9)   
   # this is rdundant to allow for futher refinement   
       elsif @wod_type == "AMRAP"
-        if @time > 12
-          return rand(15..40)
-        else 
+        if @time < 12
           return rand(3..21)
+        else 
+          return rand(15..40)
         end
       elsif @rounds < 5    #@wod_type is RFT
         return rand(15..40)
@@ -142,16 +142,22 @@ DEATHS = ["Calorie Row", "Wallballs", "Deadlifts", "Front Squats", "Kettlebell S
       if @rounds < 5
         return ["#{@set1}", "#{@set2}", "#{@set3}", "#{@set4}",
                 "#{@set5}", "#{@set6}", "#{@set7}", "#{@set8}"]
-               .sample(rand(4..7)).map { |i| "" + i.to_s + "" }.join("\n")
+               .sample(rand(3..7)).map { |i| "" + i.to_s + "" }.join("\n")
       else
         return ["#{@set1}", "#{@set2}", "#{@set3}", "#{@set4}",
                 "#{@set5}", "#{@set6}", "#{@set7}", "#{@set8}"]
-               .sample(rand(2..5)).map { |i| "" + i.to_s + "" }.join("\n")
+               .sample(rand(2..4)).map { |i| "" + i.to_s + "" }.join("\n")
       end
     else     # wod_type is AMRAP
-      return ["#{@set1}", "#{@set2}", "#{@set3}", "#{@set4}",
-              "#{@set5}", "#{@set6}", "#{@set7}", "#{@set8}"]
-             .sample(rand(2..7)).map { |i| "" + i.to_s + "" }.join("\n")
+      if @time < 12
+        return ["#{@set1}", "#{@set2}", "#{@set3}", "#{@set4}",
+                "#{@set5}", "#{@set6}", "#{@set7}", "#{@set8}"]
+               .sample(rand(3..7)).map { |i| "" + i.to_s + "" }.join("\n")
+      else
+        return ["#{@set1}", "#{@set2}", "#{@set3}", "#{@set4}",
+                "#{@set5}", "#{@set6}", "#{@set7}", "#{@set8}"]
+               .sample(rand(2..4)).map { |i| "" + i.to_s + "" }.join("\n")
+      end
     end
   end
 
