@@ -12,3 +12,12 @@ task :post => :environment do
 	client.update(wod.print_ss + "\n#fitness #workouts https://GymBull.com\n")
 	client.update(wod.print_wod + "\n#fitness #workouts https://GymBull.com\n")
 end
+
+task :test_post => :environment do
+	wod = Wod.new
+	print wod.print_wod.length - 19
+	print "\n\n"
+	print wod.print_wod 
+	print "\n\n"
+	print wod.print_ss
+end
