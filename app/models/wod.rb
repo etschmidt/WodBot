@@ -100,7 +100,7 @@ DEATHS = ["Calorie Row", "Wallballs", "Deadlifts", "Front Squats", "Kettlebell S
 # number of reps for each movement
   def reps(movement)
     if @wod_type == "EMOM"
-      if movement.to_s =~ /|C&Press|Clusters|C&J/
+      if movement == "C&Press" or movement == "Clusters" or movement == "C&J"
         return rand(1..2)
       elsif movement == "RopeClimb"
         return 1
@@ -125,10 +125,10 @@ DEATHS = ["Calorie Row", "Wallballs", "Deadlifts", "Front Squats", "Kettlebell S
         if @time < 12
           return rand(3..21)
         else 
-          return rand(15..30)
+          return rand(5..30)
         end
       elsif @rounds < 5    #@wod_type is RFT
-        return rand(15..30)
+        return rand(5..30)
       else
         return rand(3..21)
       end
