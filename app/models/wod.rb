@@ -120,17 +120,19 @@ DEATHS = ["Calorie Row", "Wallballs", "Deadlifts", "Front Squats", "Kettlebell S
         return rand(2..9)
       elsif movement == "RopeClimb"
         return rand(2..9)   
-  # this is rdundant to allow for futher refinement   
+  # this is redundant to allow for futher refinement
+      elsif @wod_type == "RFT"
+        if @rounds < 5
+          return [15, 20, 25, 30].sample
+        else
+          return rand(3..21) 
+        end
       elsif @wod_type == "AMRAP"
         if @time < 12
           return rand(3..21)
         else 
-          return rand(5..30)
+          return [15, 20, 25, 30].sample
         end
-      elsif @rounds < 5    #@wod_type is RFT
-        return rand(5..30)
-      else
-        return rand(3..21)
       end
     end
   end
