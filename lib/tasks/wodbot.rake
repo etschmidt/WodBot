@@ -9,8 +9,8 @@ task :post => :environment do
 	end
 
 	wod = Wod.new
-	client.update(wod.print_ss + "\n#fitness #workouts https://GymBull.com\n")
-	client.update(wod.print_wod + "\n#fitness #workouts https://GymBull.com\n")
+	client.update(wod.print_ss + "\n#fitness #workouts www.GymBull.com\n")
+	client.update(wod.print_wod + "\n#fitness #workouts www.GymBull.com\n")
 end
 
 task :test_post => :environment do
