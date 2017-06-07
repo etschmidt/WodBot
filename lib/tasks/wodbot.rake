@@ -23,7 +23,7 @@ task :test_post => :environment do
 end
 
 task :favorite => environment do
-		require 'twitter'
+	require 'twitter'
 
 	client = Twitter::REST::Client.new do |config|
 	  config.consumer_key        = ENV["GYM_CONSUMER_KEY"]
@@ -32,7 +32,7 @@ task :favorite => environment do
 	  config.access_token_secret = ENV["GYM_ACCESS_TOKEN_SECRET"]
 	end
 
-	tweets = client.search("#fitness", lang: "en").limit(5) || ""
+	tweets = client.search("#fitness", lang: "en").limit(5)
 
 	tweets.each do |tw|
 		if !tw.favorited?
