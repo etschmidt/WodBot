@@ -54,7 +54,7 @@ namespace :thegymbull do
 
 		tweet = client.search(@topic, lang: "en").take(1) || ""
 
-    client.retweet!(tweet.id)
+    client.retweet!(tweet)
 
   end
 
