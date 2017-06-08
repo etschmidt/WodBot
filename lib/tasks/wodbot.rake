@@ -25,7 +25,7 @@ end
 task :favorite => environment do
 	require 'twitter'
 
-	client = Twitter::REST::Client.new do |config|
+	client2 = Twitter::REST::Client.new do |config|
 	  config.consumer_key        = ENV["GYM_CONSUMER_KEY"]
 	  config.consumer_secret     = ENV["GYM_CONSUMER_SECRET"]
 	  config.access_token        = ENV["GYM_ACCESS_TOKEN"]
