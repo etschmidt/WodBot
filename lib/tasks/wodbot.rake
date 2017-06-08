@@ -59,4 +59,10 @@ namespace :thegymbull do
 
   end
 
+  task :quote => :environment do
+
+  	quote = Quote.new
+
+		client.update(quote.print_quote + "\nwww.GymBull.com\n")  	
+
 end
