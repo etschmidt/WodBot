@@ -57,5 +57,7 @@ namespace :thegymbull do
 		if !tw.possibly_sensitive? and !tw.retweeted_tweet?
       client.retweet(tw.id)
     end
-    
+
+  end
+  
 end
