@@ -54,9 +54,7 @@ namespace :thegymbull do
 
 		tweet = client.search(@topic, lang: "en").take(1) || ""
 
-		if !tweet.possibly_sensitive? and !tweet.retweeted_tweet?
-      client.retweet(tweet.id)
-    end
+    client.retweet!(tweet.id)
 
   end
 
