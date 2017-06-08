@@ -21,17 +21,3 @@ task :test_post => :environment do
 	print "\n\n"
 	print wod.print_ss
 end
-
-task :favorite => environment do
-	require 'twitter'
-
-	client2 = Twitter::REST::Client.new do |config|
-	  config.consumer_key        = ENV["GYM_CONSUMER_KEY"]
-	  config.consumer_secret     = ENV["GYM_CONSUMER_SECRET"]
-	  config.access_token        = ENV["GYM_ACCESS_TOKEN"]
-	  config.access_token_secret = ENV["GYM_ACCESS_TOKEN_SECRET"]
-	end
-
-
-end
-
