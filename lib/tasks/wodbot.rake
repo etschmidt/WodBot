@@ -63,6 +63,8 @@ namespace :thegymbull do
 
   	quote = Quote.new
 
-		client.update(quote.print_quote + "\nwww.GymBull.com\n")  	
+		client.update(quote.print_quote + "\nwww.GymBull.com\n")  
+		
+	end	
 
 end
