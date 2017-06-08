@@ -52,12 +52,12 @@ namespace :thegymbull do
 
 	task :retweet => :environment do
 
-		tweets = client.search(@topic, lang: "en").take(1)  ""
+		tweets = client.search(@topic, lang: "en").take(1) || ""
 
 		if !tw.possibly_sensitive? and !tw.retweeted_tweet?
       client.retweet(tw.id)
     end
 
   end
-  
+
 end
