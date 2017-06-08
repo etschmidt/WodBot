@@ -32,7 +32,7 @@ task :favorite => :environment do
 	  config.access_token_secret = ENV["GYM_ACCESS_TOKEN_SECRET"]
 	end
 
-	tweets = client.search("#fitness", lang: "en").limit(5) || ""
+	tweets = client.search("#fitness", lang: "en").take(5) || ""
 
 	tweets.each do |tw|
 		if !tw.favorited?
