@@ -10,7 +10,7 @@ class Quote < ApplicationRecord
 
 		if @quote.length < 140
 
-			@quote
+			"#{@quote}"
 
 		end
 
