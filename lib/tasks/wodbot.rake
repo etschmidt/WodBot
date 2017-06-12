@@ -36,7 +36,7 @@ namespace :thegymbull do
 	  config.access_token_secret = ENV["GYM_ACCESS_TOKEN_SECRET"]
 	end
 
-	@topic = ["#fitness", "#crossfit", "#weigtlifting", "#workout", "#gymlife", "#personaltrainer", "#excerise", "#nutrition"].sample
+	@topic = ["#fitness", "#crossfit", "#wod", "#weigtlifting", "#workout", "#gymlife", "#personaltrainer", "#excerise", "#nutrition"].sample
 
 	task :favorite => :environment do
 		
