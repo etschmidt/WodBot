@@ -36,11 +36,13 @@ namespace :thegymbull do
 	  config.access_token_secret = ENV["GYM_ACCESS_TOKEN_SECRET"]
 	end
 
-	@topic = ["#fitness", "#crossfit", "#wod", "#weigtlifting", "#workout", "#gymlife", "#personaltrainer", "#excerise", "#nutrition"].sample
+	@topic = ["#fitness", "#crossfit", "#wod", "#weigtlifting", 
+		"#workout", "#gymlife", "#personaltrainer", "#excerise",
+		"#bodybuilding", "#nutrition"].sample
 
 	task :favorite => :environment do
 		
-		tweets = client.search(@topic, lang: "en").take(5) || ""
+		tweets = client.search(@topic, lang: "en").take(10) || ""
 
 		tweets.each do |tw|
 			if !tw.favorited?
