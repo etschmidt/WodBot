@@ -42,8 +42,8 @@ namespace :thegymbull do
 
 	task :wod => :environment do
 		wod = Wod.new
-		client.update(wod.print_ss + "\n#fitness #workouts https://diogn.es/u/141\n")
 		client.update(wod.print_wod + "\n#fitness #workouts https://diogn.es/u/141\n")
+		client.update(wod.print_ss + "\n#fitness #workouts https://diogn.es/u/141\n")	
 	end
 
 	task :favorite => :environment do

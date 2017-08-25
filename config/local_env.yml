@@ -1,0 +1,14 @@
+# Rename this file to local_env.yml
+# Add account settings and API keys here.
+# This file should be listed in .gitignore to keep your settings secret!
+# Each entry gets set as a local environment variable.
+# This file overrides ENV variables in the Unix shell.
+# For example, setting:
+# GMAIL_USERNAME: 'Your_Gmail_Username'
+# makes 'Your_Gmail_Username' available as ENV["GMAIL_USERNAME"]
+TWITTER_CONSUMER_KEY: 'QE2z2a0kkDOl4gp7aDNk9kON5'
+TWITTER_CONSUMER_SECRET: '0SirSqgSmIu3m9j8wRgMZ1ed6gyBdiJVkafxN9lXrELN71pRVY'
+FACEBOOK_APP_ID: '1859515687710836'
+FACEBOOK_APP_SECRET: 'd428d421a6953f5e17669a6b8e4a85b7'
+
+# THESE ARE ALL WRONG - DO NOT USE
